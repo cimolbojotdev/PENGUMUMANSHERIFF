@@ -246,13 +246,8 @@ function TemplateAccordionView({ goHome }) {
     "Code 0": ["code-zero", "code-zero-clear"],
     "Pengejaran Suspect": ["pursuit-start", "pursuit-update", "pursuit-end"],
     Siaga: ["standby", "standby-clear", "standby-lockdown"],
-    "Pengawalan VIP": ["escort-vip", "escort-vip-clear"],
-    "Pengawalan Barang": ["escort-cargo"],
-    "Pengawalan Rute": ["escort-route"],
-    "Pemanggilan Sidang": ["summon-court"],
-    "Pemanggilan Klarifikasi": ["summon-clarification"],
-    "Pemanggilan Wajib": ["summon-mandatory"],
-    DPO: ["dpo-release", "dpo-clear"],
+    Pengawalan: [],
+    Pemanggilan: [],
   };
   const navigation = templateNavigation[category] || [];
   const selectCategory = (item) => {

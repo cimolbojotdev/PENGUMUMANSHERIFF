@@ -1,4 +1,4 @@
-export const templateCategories = ['Tutorial', 'Perampokan', 'Layanan Sheriff', 'Kerusuhan & Penembakan', 'Code 0', 'Penyanderaan', 'Pengejaran Suspect', 'Siaga', 'Pengawalan', 'Pemanggilan', 'Lain-lain']
+export const templateCategories = ['Tutorial', 'Perampokan', 'Layanan Sheriff', 'Kerusuhan & Penembakan', 'Code 0', 'Penyanderaan', 'Pengejaran Suspect', 'Siaga', 'Pengawalan', 'Pemanggilan']
 
 export const templates = [
   // === PERAMPOKAN — Status Warung ===
@@ -36,7 +36,6 @@ export const templateNavigation = {
   Penyanderaan: ['Penyanderaan Aktif', 'Penyanderaan Selesai'],
   'Pengejaran Suspect': [],
   Siaga: [],
-  Pengawalan: ['Pengawalan VIP', 'Pengawalan Barang', 'Pengawalan Rute'],
-  Pemanggilan: ['Pemanggilan Sidang', 'Pemanggilan Klarifikasi', 'Pemanggilan Wajib'],
-  'Lain-lain': ['DPO']
+  Pengawalan: [],
+  Pemanggilan: []
 }
