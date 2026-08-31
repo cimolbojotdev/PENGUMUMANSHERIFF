@@ -33,7 +33,7 @@ export const templateNavigation = {
   'Layanan Sheriff': ['Layanan Umum', 'SIM', 'STNK'],
   'Kerusuhan & Penembakan': ['Kerusuhan', 'Peperangan'],
   'Code 0': [],
-  Penyanderaan: ['Penyanderaan Aktif', 'Penyanderaan Selesai'],
+  Penyanderaan: [],
   'Pengejaran Suspect': [],
   Siaga: [],
   Pengawalan: [],
