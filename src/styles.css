@@ -1665,3 +1665,175 @@ input:focus, textarea:focus, select:focus {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* App footer — text overlay centered bottom */
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 10px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(176,156,120,0.35);
+  pointer-events: none;
+  z-index: 50;
+  background: linear-gradient(to top, rgba(11,10,9,0.6), transparent);
+}
+
+/* ==========================================
+   EXTRA ANIMATIONS — PREMIUM POLISH
+   ========================================== */
+
+/* Ambient floating glow behind home emblem */
+@keyframes float-glow {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+  50% { transform: translateY(-8px) scale(1.05); opacity: 0.8; }
+}
+.home-simple-inner .logo-glow {
+  animation: float-glow 5s ease-in-out infinite;
+}
+
+/* Header subtle slide-in on load */
+@keyframes header-slide {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.site-header {
+  animation: header-slide 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Sidebar category buttons — staggered entrance */
+.nested-category-list .category-parent {
+  animation: fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.nested-category-list .category-parent:nth-child(1) { animation-delay: 0.02s; }
+.nested-category-list .category-parent:nth-child(2) { animation-delay: 0.05s; }
+.nested-category-list .category-parent:nth-child(3) { animation-delay: 0.08s; }
+.nested-category-list .category-parent:nth-child(4) { animation-delay: 0.11s; }
+.nested-category-list .category-parent:nth-child(5) { animation-delay: 0.14s; }
+.nested-category-list .category-parent:nth-child(6) { animation-delay: 0.17s; }
+.nested-category-list .category-parent:nth-child(7) { animation-delay: 0.2s; }
+.nested-category-list .category-parent:nth-child(8) { animation-delay: 0.23s; }
+.nested-category-list .category-parent:nth-child(9) { animation-delay: 0.26s; }
+.nested-category-list .category-parent:nth-child(10) { animation-delay: 0.29s; }
+
+/* Submenu buttons — slide in from left */
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.submenu-btn {
+  animation: slide-in-left 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.submenu-btn:nth-child(2) { animation-delay: 0.04s; }
+.submenu-btn:nth-child(3) { animation-delay: 0.08s; }
+.submenu-btn:nth-child(4) { animation-delay: 0.12s; }
+.submenu-btn:nth-child(5) { animation-delay: 0.16s; }
+
+/* Accordion content — smooth expand */
+.announcement-content {
+  animation: fade-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Preview paper — subtle paper sheen sweep */
+.preview-paper {
+  position: relative;
+  overflow: hidden;
+}
+.preview-paper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.04), transparent);
+  animation: sheen 4s ease-in-out infinite;
+}
+@keyframes sheen {
+  0%, 60% { left: -150%; }
+  100% { left: 150%; }
+}
+
+/* Result numbers — count-up feel with pop */
+.result-numbers strong {
+  transition: transform 0.2s ease;
+}
+.result-numbers div:hover strong {
+  transform: scale(1.08);
+}
+
+/* Calc tabs — active indicator slide */
+.calc-tab {
+  position: relative;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.calc-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold);
+  animation: tab-grow 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes tab-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Law card hover — subtle lift + border glow */
+.law-card {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+.law-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(185,160,121,0.25) !important;
+  box-shadow: 0 4px 16px rgba(185,160,121,0.08) !important;
+}
+
+/* Copy button — gentle press on click */
+.copy-button:active {
+  transform: scale(0.96);
+}
+
+/* Announcement trigger chevron — smooth rotate */
+.announcement-chevron {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.announcement-item.open .announcement-chevron {
+  transform: rotate(180deg);
+}
+
+/* Home buttons — glow pulse on hover */
+.home-simple-btn:hover {
+  box-shadow: 0 0 24px rgba(185,160,121,0.25) !important;
+}
+
+/* Modal backdrop — fade in */
+.book-overlay {
+  animation: fade-in 0.25s ease both;
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal panel — scale in */
+.book-modal {
+  animation: modal-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes modal-pop {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Footer — gentle fade in */
+.app-footer {
+  animation: fade-up 0.8s ease 0.4s both;
+}

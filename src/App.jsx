@@ -240,9 +240,9 @@ function TemplateAccordionView({ goHome }) {
     STNK: ["stnk-open", "stnk-close"],
     Kerusuhan: ["riot-start", "riot-masuk-area", "riot-evakuasi", "riot-clear"],
     Peperangan: ["war-antar-kelompok", "war-masuk-area", "war-clear"],
-    Penyanderaan: [],
+    Penyanderaan: ["sandera-awal", "sandera-penembakan", "sandera-jeda", "sandera-evakuasi", "sandera-clear"],
     Tutorial: ["tutorial", "tutorial-radio", "tutorial-cuff"],
-    "Code 0": ["code-zero", "code-zero-clear"],
+    "Code 0": ["code0-awal", "code0-jeda", "code0-evakuasi", "code0-tarik", "code0-clear"],
     "Pengejaran Suspect": ["pursuit-start", "pursuit-update", "pursuit-end"],
     Siaga: ["standby", "standby-clear", "standby-lockdown"],
     "Bus Tahanan": ["bus-mulai", "bus-serangan", "bus-tertangani", "bus-tidak", "bus-evakuasi", "bus-clear", "bus-sampai"],
@@ -275,7 +275,7 @@ function TemplateAccordionView({ goHome }) {
       (_, key) => {
         const k = key.trim();
         const v = values[k];
-        if (k === "jeda" && v) return formatJedaTime(v);
+        if ((k === "jeda" || k === "waktu") && v) return formatJedaTime(v);
         return v || `[${k.toUpperCase()}]`;
       },
     );
@@ -1006,6 +1006,7 @@ export default function App() {
         setMenuOpen={setMenuOpen}
       />
       {content}
+      <footer className="app-footer">Dibuat oleh Cimolbojot</footer>
     </>
   );
 }
