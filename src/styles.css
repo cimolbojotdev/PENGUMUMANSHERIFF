@@ -1005,8 +1005,8 @@ input:focus, textarea:focus, select:focus {
 
 /* Global container breathing room */
 .wrap {
-  max-width: 1180px !important;
-  width: min(calc(100% - 56px), 1180px) !important;
+  max-width: 1600px !important;
+  width: min(calc(100% - 56px), 1600px) !important;
 }
 
 /* Header refinement */
