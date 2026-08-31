@@ -245,7 +245,8 @@ function TemplateAccordionView({ goHome }) {
     "Code 0": ["code-zero", "code-zero-clear"],
     "Pengejaran Suspect": ["pursuit-start", "pursuit-update", "pursuit-end"],
     Siaga: ["standby", "standby-clear", "standby-lockdown"],
-    Pengawalan: [],
+    "Bus Tahanan": ["bus-mulai", "bus-serangan", "bus-tertangani", "bus-tidak", "bus-evakuasi", "bus-clear", "bus-sampai"],
+    "Pengawalan Lainnya": [],
     Pemanggilan: [],
   };
   const navigation = templateNavigation[category] || [];
