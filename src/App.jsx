@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "./assets/logo/sheriff.png";
 import {
-  ArrowLeft,
   ArrowUpRight,
   BookOpen,
   Calculator,
@@ -10,32 +9,53 @@ import {
   FileText,
   Menu,
   Search,
-  Shield,
   Trash2,
   X,
 } from "lucide-react";
 import {
   laws,
-  placeholders,
   templateCategories,
   templateNavigation,
+  templateSubcategories,
   templates,
 } from "./data";
+
+let clickAudioContext;
+
+function playClickSound() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) return;
+
+  clickAudioContext ||= new AudioContext();
+  if (clickAudioContext.state === "suspended") clickAudioContext.resume();
+
+  const oscillator = clickAudioContext.createOscillator();
+  const gain = clickAudioContext.createGain();
+  const startTime = clickAudioContext.currentTime;
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(720, startTime);
+  oscillator.frequency.exponentialRampToValueAtTime(420, startTime + 0.045);
+  gain.gain.setValueAtTime(0.0001, startTime);
+  gain.gain.exponentialRampToValueAtTime(0.015, startTime + 0.006);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.06);
+
+  oscillator.connect(gain);
+  gain.connect(clickAudioContext.destination);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + 0.065);
+}
 
 const tools = [
   {
     id: "templates",
     label: "Template Pengumuman",
     icon: FileText,
-    description:
-      "Buat dan salin template berita atau pengumuman Sheriff dengan cepat.",
   },
   {
     id: "calculator",
     label: "Kalkulator Pasal",
     icon: Calculator,
-    description:
-      "Pilih pelanggaran dan hitung pasal, denda, serta hukuman secara otomatis.",
   },
 ];
 function formatJedaTime(value) {
@@ -167,7 +187,7 @@ function Header({ view, setView, menuOpen, setMenuOpen }) {
     </header>
   );
 }
-function Shell({ children, title, subtitle, onBack }) {
+function Shell({ children, title, subtitle }) {
   return (
     <main className="wrap workspace">
       <div className="page-title">
@@ -215,40 +235,11 @@ function Home({ setView }) {
     </main>
   );
 }
-function TemplateAccordionView({ goHome }) {
+function TemplateAccordionView() {
   const [category, setCategory] = useState("Perampokan");
-  const [expanded, setExpanded] = useState({ Perampokan: true });
   const [subcategory, setSubcategory] = useState("Status Warung");
   const [openId, setOpenId] = useState(null);
   const [values, setValues] = useState({});
-  const [, setTick] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 1000);
-    return () => clearInterval(id);
-  }, []);
-  const subTemplates = {
-    "Status Warung": ["robbery-awal", "robbery-status-tertangani", "robbery-status-tidak", "robbery-evakuasi", "robbery-clear"],
-    "Pursuit / Pengejaran": ["robbery-awal", "robbery-pursuit-start", "robbery-pursuit-end", "robbery-clear"],
-    "Warung Tarik": ["robbery-awal", "robbery-pursuit-start", "robbery-pursuit-end", "robbery-clear", "robbery-to-shooting"],
-    "Perampokan Bank": [
-      "robbery-bank-start",
-      "robbery-bank-nego",
-      "robbery-bank-clear",
-    ],
-    "Layanan Umum": ["service-open", "service-close", "service-announcement"],
-    SIM: ["sim-open", "sim-close"],
-    STNK: ["stnk-open", "stnk-close"],
-    Kerusuhan: ["riot-start", "riot-masuk-area", "riot-evakuasi", "riot-clear"],
-    Peperangan: ["war-antar-kelompok", "war-masuk-area", "war-clear"],
-    Penyanderaan: ["sandera-awal", "sandera-penembakan", "sandera-jeda", "sandera-evakuasi", "sandera-clear"],
-    Tutorial: ["tutorial", "tutorial-radio", "tutorial-cuff"],
-    "Code 0": ["code0-awal", "code0-jeda", "code0-evakuasi", "code0-tarik", "code0-clear"],
-    "Pengejaran Suspect": ["pursuit-start", "pursuit-update", "pursuit-end"],
-    Siaga: ["standby", "standby-clear", "standby-lockdown"],
-    "Bus Tahanan": ["bus-mulai", "bus-serangan", "bus-tertangani", "bus-tidak", "bus-evakuasi", "bus-clear", "bus-sampai"],
-    "Pengawalan Lainnya": [],
-    Pemanggilan: [],
-  };
   const navigation = templateNavigation[category] || [];
   const selectCategory = (item) => {
     const children = templateNavigation[item] || [];
@@ -261,10 +252,9 @@ function TemplateAccordionView({ goHome }) {
     setSubcategory(item);
     setOpenId(null);
   };
-  const allowed = subTemplates[subcategory || category];
+  const allowed = templateSubcategories[subcategory || category];
   const list = templates.filter(
-    (item) =>
-      item.category === category && (!allowed || allowed.includes(item.id)),
+    (item) => item.category === category && (!allowed || allowed.includes(item.id)),
   );
   const toggle = (item) => {
     setOpenId(openId === item.id ? null : item.id);
@@ -288,7 +278,6 @@ function TemplateAccordionView({ goHome }) {
     <Shell
       title="Template Pengumuman"
       subtitle="Pilih kategori, buka satu template, isi informasi yang diperlukan, lalu salin hasilnya."
-      onBack={goHome}
     >
       <div className="template-layout">
         <aside className="side-panel template-sidebar">
@@ -337,7 +326,25 @@ function TemplateAccordionView({ goHome }) {
             </div>
           )}
           <div className="template-accordion">
-            {list.map((item) => {
+            {category === "Tutorial" ? (
+              <div className="tutorial-page">
+                <div className="tutorial-text-dizzy">
+                  <span className="dizzy-echo echo-1">YAKALI HARUS DI AJARIN</span>
+                  <span className="dizzy-echo echo-2">YAKALI HARUS DI AJARIN</span>
+                  <span className="dizzy-echo echo-3">YAKALI HARUS DI AJARIN</span>
+                  <span className="dizzy-echo echo-4">YAKALI HARUS DI AJARIN</span>
+                  <span className="dizzy-main">YAKALI HARUS DI AJARIN</span>
+                </div>
+                <div className="tutorial-text-dizzy tutorial-text-dizzy-sub">
+                  <span className="dizzy-echo echo-1">malu dong</span>
+                  <span className="dizzy-echo echo-2">malu dong</span>
+                  <span className="dizzy-echo echo-3">malu dong</span>
+                  <span className="dizzy-echo echo-4">malu dong</span>
+                  <span className="dizzy-main">malu dong</span>
+                </div>
+              </div>
+            ) : (
+              list.map((item) => {
               const isOpen = openId === item.id;
               return (
                 <article
@@ -426,8 +433,9 @@ function TemplateAccordionView({ goHome }) {
                   )}
                 </article>
               );
-            })}
-            {!list.length && (
+            })
+            )}
+            {category !== "Tutorial" && !list.length && (
               <div className="template-empty">
                 <FileText size={24} />
                 <strong>Belum ada template</strong>
@@ -603,14 +611,7 @@ function TilangOutput({ suspect, officer, date, region, time, cases }) {
     </div>
   );
 }
-function CalculatorView({ goHome }) {
-  const categories = [
-    "Semua",
-    "Pelanggaran Ringan",
-    "Pelanggaran Sedang",
-    "Pelanggaran Berat",
-    "Undang Undang Lalu Lintas",
-  ];
+function CalculatorView() {
   const [mode, setMode] = useState("criminal");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("Semua");
@@ -691,6 +692,13 @@ function CalculatorView({ goHome }) {
     setRegion("");
     setTime("");
   };
+  const openLawBook = (nextQuery = "") => {
+    setBookQuery(nextQuery);
+    setBookCategory(
+      mode === "traffic" ? "Undang Undang Lalu Lintas" : "Semua",
+    );
+    setBookOpen(true);
+  };
   const result = selected.length
     ? `PASAL:\n${selected.map((item) => `${item.article} — ${item.name}`).join("\n")}\n\nTOTAL DENDA:\n${money(totalFine)}\n\nTOTAL HUKUMAN:\n${totalMonths} Bulan`
     : "Belum ada pasal yang dipilih.";
@@ -698,7 +706,6 @@ function CalculatorView({ goHome }) {
     <Shell
       title="Kalkulator Pasal"
       subtitle="Pilih pasal dan hitung total denda serta hukuman."
-      onBack={goHome}
     >
       <div className="report-fields">
         <label>
@@ -774,7 +781,7 @@ function CalculatorView({ goHome }) {
                 <strong>Kasus / Pelanggaran</strong>
                 <button
                   className="copy-button"
-                  onClick={() => setBookOpen(true)}
+                  onClick={() => openLawBook()}
                 >
                   <BookOpen size={14} /> Pilih Pasal
                 </button>
@@ -835,10 +842,7 @@ function CalculatorView({ goHome }) {
                 <div className="quick-heading">
                   <span>{quickResults.length} hasil ditemukan</span>
                   <button
-                    onClick={() => {
-                      setBookQuery(query);
-                      setBookOpen(true);
-                    }}
+                    onClick={() => openLawBook(query)}
                   >
                     Lihat semua hasil <ArrowUpRight size={14} />
                   </button>
@@ -853,7 +857,7 @@ function CalculatorView({ goHome }) {
                 ))}
               </div>
             ) : (
-              <button className="open-book" onClick={() => setBookOpen(true)}>
+              <button className="open-book" onClick={() => openLawBook()}>
                 <BookOpen size={21} />
                 <span>
                   <strong>Buka Daftar Pasal</strong>
@@ -989,11 +993,19 @@ function CalculatorView({ goHome }) {
 export default function App() {
   const [view, setView] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const handleButtonClick = (event) => {
+      if (event.target.closest("button")) playClickSound();
+    };
+
+    document.addEventListener("click", handleButtonClick);
+    return () => document.removeEventListener("click", handleButtonClick);
+  }, []);
   const content =
     view === "templates" ? (
-      <TemplatesView goHome={() => setView("home")} />
+      <TemplatesView />
     ) : view === "calculator" ? (
-      <CalculatorView goHome={() => setView("home")} />
+      <CalculatorView />
     ) : (
       <Home setView={setView} />
     );
