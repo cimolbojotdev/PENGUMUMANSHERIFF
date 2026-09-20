@@ -1018,7 +1018,7 @@ export default function App() {
         setMenuOpen={setMenuOpen}
       />
       {content}
-      <footer className="app-footer">Dibuat oleh Cimolbojot</footer>
+      <footer className="app-footer">ty ty idp - Roys m hawkins</footer>
     </>
   );
 }
