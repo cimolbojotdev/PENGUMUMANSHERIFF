@@ -266,7 +266,7 @@ function TemplateAccordionView() {
         const k = key.trim();
         const v = values[k];
         if ((k === "jeda" || k === "waktu") && v) return formatJedaTime(v);
-        return v || `[${k.toUpperCase()}]`;
+        return v || "....";
       },
     );
     // Keep /police or /policer prefix lowercase, uppercase the rest
